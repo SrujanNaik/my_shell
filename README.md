@@ -1,4 +1,6 @@
 
+----
+
 **Basic Command Excution**   
 
 - [ ] ls: Lists files and directories in the current directory.  
@@ -21,7 +23,7 @@
 
 - [ ] cat: Displays the contents of a file.  
 - [ ] grep: Searches for patterns in files.  
-- [ ]echo: Displays text on the console.  
+- [ ] echo: Displays text on the console.  
 
 ----
 

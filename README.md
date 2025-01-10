@@ -1,7 +1,7 @@
 
 **Basic Command Excution**   
 
-- [ ]ls: Lists files and directories in the current directory.  
+- [x] ls: Lists files and directories in the current directory.  
 
    - Lists files with detailed information (permissions, owner, size, etc.).  
 

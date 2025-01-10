@@ -25,10 +25,7 @@
 - [ ] grep: Searches for patterns in files.  
 - [ ] echo: Displays text on the console.  
 
-----
-
-**looping**
-
+----  
 
 **Built-in Commands**
 
@@ -39,7 +36,37 @@
 **Error Handling**
 
 
+**looping**  
+- [ ] Continuously Prompt the User:  
+
+    - Display the shell prompt (e.g., myshell>) to the user.  
+    - Use fgets() to read a line of input from the user.  
+
+- [ ] Check for the exit Command:  
+
+    - If the user enters the exit command, set a flag (e.g., should_run = 0) to indicate that the shell should terminate.  
+
+- [ ] Execute Commands:  
+
+    - If the input is not exit, proceed with the command execution steps:  
+        - Parse the input to extract the command and arguments.  
+        - Fork a child process using fork().  
+        - In the child process, use execvp() to execute the command.  
+        - In the parent process, use wait() to wait for the child process to finish.  
+
+- [ ] Handle Errors:  
+
+    - Check for errors during fork(), execvp(), and wait().  
+    - Display appropriate error messages to the user.  
+
+
+----
+
+
 optional
+
+
+
 *Background Processes*
 
 *I/O Redirection*

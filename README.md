@@ -29,24 +29,28 @@
 
 **Built-in Commands**  
 
-- [ ] cd: Change directory.  
-- [ ] pwd: Print working directory (show the current directory).  
-- [ ] echo: Display text on the screen.  
-- [ ] exit: Exit the current shell session.  
-- [ ] export: Set or modify environment variables.  
-- [ ] source: Read and execute commands from a file in the current shell environment.  
-- [ ] history: Display a list of previously executed commands.  
-- [ ] alias: Create shortcuts for frequently used commands.  
-- [ ] jobs: List background jobs.  
-- [ ] fg: Bring a background job to the foreground.  
-- [ ] bg: Move a job to the background.  
-- [ ] kill: Send signals to processes, including termination signals.  
-- [ ] if, else, elif, for, while, until: Control flow constructs for conditional execution and looping.  
+- [ ] cd (Change Directory):  
+  
+    - Changes the current working directory of the shell.  
+    - Example: cd /home/user  
+  
+- [ ] exit:  
+  
+    - Exits the shell.  
+  
+- [ ] pwd (Print Working Directory):  
+  
+    - Displays the current working directory.   
+  
+----
 
 **Input Handling**
 
+- Handling inputs through fgets(), strtok().  
 
 **Error Handling**
+ 
+ - Handling error like fgets(),fork(), execvp(), wait().  
 
 
 **looping**  
@@ -77,8 +81,6 @@
 
 
 optional
-
-
 
 *Background Processes*
 

@@ -3,17 +3,22 @@
 
 **Basic Command Excution**   
 
-- [ ] ls: Lists files and directories in the current directory.  
+- [x] ls: Lists files and directories in the current directory.  
 
    - Lists files with detailed information (permissions, owner, size, etc.).  
 
-- [ ] cd: Changes the current directory.
+- [x] cd: Changes the current directory.
 
     - cd ..: Moves to the parent directory.  
     - cd ~: Moves to the home directory.  
 
-- [ ] pwd: Displays the current working directory.  
-- [ ] mkdir: Creates a new directory.  
+- [x] pwd: Displays the current working directory.  
+- [x] type: tell the type of command.
+    - type: builtin
+    - type: excuatbles
+- [x] echo: Displays text on the console.  
+- [x] mkdir: Creates a new directory.  
+- [ ] Run a Program.
 - [ ] touch: Creates an empty file or updates the timestamp of an existing file.  
 - [ ] cp: Copies files or directories.  
 - [ ] mv: Moves or renames files or directories.  
@@ -22,23 +27,21 @@
     - rm -r: Recursively removes directories and their contents.  
 
 - [ ] cat: Displays the contents of a file.  
-- [ ] grep: Searches for patterns in files.  
-- [ ] echo: Displays text on the console.  
 
 ----  
 
 **Built-in Commands**  
 
-- [ ] cd (Change Directory):  
+- [x] cd (Change Directory):  
   
     - Changes the current working directory of the shell.  
     - Example: cd /home/user  
   
-- [ ] exit:  
+- [x] exit:  
   
     - Exits the shell.  
   
-- [ ] pwd (Print Working Directory):  
+- [x] pwd (Print Working Directory):  
   
     - Displays the current working directory.   
   

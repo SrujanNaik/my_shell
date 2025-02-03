@@ -18,14 +18,11 @@
     - type: excuatbles
 - [x] echo: Displays text on the console.  
 - [x] mkdir: Creates a new directory.  
-- [ ] Run a Program.
-- [ ] touch: Creates an empty file or updates the timestamp of an existing file.  
+- [x] Run a Program.
+- [x] touch: Creates an empty file or updates the timestamp of an existing file.  
 - [ ] cp: Copies files or directories.  
 - [ ] mv: Moves or renames files or directories.  
 - [ ] rm: Removes files or directories.  
-
-    - rm -r: Recursively removes directories and their contents.  
-
 - [ ] cat: Displays the contents of a file.  
 
 ----  
@@ -66,7 +63,7 @@
 
     - If the user enters the exit command, set a flag (e.g., should_run = 0) to indicate that the shell should terminate.  
 
-- [ ] Execute Commands:  
+- [x] Execute Commands:  
 
     - If the input is not exit, proceed with the command execution steps:  
         - Parse the input to extract the command and arguments.  
@@ -74,7 +71,7 @@
         - In the child process, use execvp() to execute the command.  
         - In the parent process, use wait() to wait for the child process to finish.  
 
-- [ ] Handle Errors:  
+- [x] Handle Errors:  
 
     - Check for errors during fork(), execvp(), and wait().  
     - Display appropriate error messages to the user.  

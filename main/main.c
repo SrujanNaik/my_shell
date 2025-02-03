@@ -10,52 +10,60 @@
 #include <errno.h>
 #include <dirent.h>
 
-void check_application(char *input){
-	char PATH[PATH_MAX];
-	DIR *dir = opendir(PATH);
-	if (dir == NULL){
-		printf("Application Path not found\n");
-	}
-	struct dirent *entry;
-	bool application_found = 0;
 
+void create_file(char *f_name){
+	FILE *file = fopen(f_name, "w+");
+	if(file == NULL){
+		perror("error opening file");
+	}
+}
+
+
+bool check_dir(char *cmd){
+	struct dirent *entry;
+	DIR *dir = opendir("/usr/bin/");
+	if(dir == NULL){
+		printf("Path error");
+	}
+	bool check_val = 0;
 	while ((entry = readdir(dir)) != NULL){
-		if(strcmp(entry->d_name, input) == 0){
-			application_found = 1;
+		if(strcmp(entry->d_name, cmd) == 0){
+		check_val = 1;
+		break;
 		}
 	}
+	closedir(dir);
+	return check_val;
+}
 
 
-	char *argv[MAX_INPUT/2];
+void open_application(char *input){
+	char *argv[128];
 	int argc = 0;
 	char *token = strtok(input, " ");
-
-	while (token != NULL){
+	while( token != NULL){
 		argv[argc++] = token;
 		token = strtok(NULL, " ");
 	}
 	argv[argc] = NULL;
 
+	char PATH[PATH_MAX];
 	snprintf(PATH, sizeof(PATH), "/usr/bin/%s", argv[0]);
-	if(application_found){
-		pid_t pid = fork();
+	pid_t pid = fork();
 
-		if(pid < 0){
-			perror("fork failed\n");
-		}
-		else if(pid == 0){
-
-			execv(PATH, argv);
-
-			perror("Execv failed");
-		}
-		else {
-			int status;
-			waitpid(pid, &status, 0);
-		}
+	if(pid < 0){
+		perror("fork failed\n");
 	}
-	
-	closedir(dir);
+	else if(pid == 0){
+
+		execv(PATH, argv);
+
+		perror("Execv failed");
+	}
+	else {
+		int status;
+		waitpid(pid, &status, 0);
+	}
 }
 
 int main(int argc, char *argv[]){
@@ -79,27 +87,17 @@ int main(int argc, char *argv[]){
 		fgets(input, sizeof(input), stdin);
 		input[strcspn(input, "\n")] = '\0';
 
-		check_application(input);
 		// type command
 		if (strncmp(input, "type", 4) == 0){
-			struct dirent *entry;
 			char *cmd = input+5;
-			DIR *dir = opendir("/usr/bin/");
-			if(dir == NULL){
-				printf("Path error");
-			}
-			int check_val = 0;
-
-			while ((entry = readdir(dir)) != NULL){
-				if(strcmp(entry->d_name, cmd) == 0){
-					check_val = 1;
-					break;
-				}
-			}
-
-			closedir(dir);
-
-			if(strcmp(cmd, "pwd") == 0 || strcmp(cmd, "ls") == 0 ||strcmp(cmd, "cd") == 0 || strcmp(cmd, "echo") == 0){
+			bool check_val = check_dir(cmd);
+			
+			if(strcmp(cmd, "type") == 0 
+				|| strcmp(cmd, "touch") == 0 
+				|| strcmp(cmd, "pwd") == 0 
+				|| strcmp(cmd, "ls") == 0 
+				|| strcmp(cmd, "cd") == 0 
+				|| strcmp(cmd, "echo") == 0){
 				printf("It is a buildin command\n");
 			}
 			else if(check_val == 1){
@@ -110,6 +108,11 @@ int main(int argc, char *argv[]){
 			}
 		}
 
+		// Touch create a new file
+		else if (strncmp(input, "touch", 5) == 0){
+			char *f_name = input + 6;
+			create_file(f_name);
+		}
 
 		// mkdir
 		else if (strncmp(input, "mkdir", 5) == 0){
@@ -191,6 +194,14 @@ int main(int argc, char *argv[]){
 
 
 		else {
+			char cp_input[128];
+			strcpy(cp_input, input);
+			char *app = strtok(cp_input, " ");
+			if(check_dir(app)){
+				open_application(input);
+				printf("%s",input);
+				continue;
+			}
 			printf("%s: command not found\n", input);
 		}
 		getcwd(previous_dir, sizeof(previous_dir));

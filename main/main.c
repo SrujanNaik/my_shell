@@ -1,18 +1,69 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <sys/wait.h>
 #include <sys/types.h>
 #include <limits.h>
 #include <errno.h>
 #include <dirent.h>
 
-int main(){
+void check_application(char *input){
+	char PATH[PATH_MAX];
+	DIR *dir = opendir(PATH);
+	if (dir == NULL){
+		printf("Application Path not found\n");
+	}
+	struct dirent *entry;
+	bool application_found = 0;
+
+	while ((entry = readdir(dir)) != NULL){
+		if(strcmp(entry->d_name, input) == 0){
+			application_found = 1;
+		}
+	}
+
+
+	char *argv[MAX_INPUT/2];
+	int argc = 0;
+	char *token = strtok(input, " ");
+
+	while (token != NULL){
+		argv[argc++] = token;
+		token = strtok(NULL, " ");
+	}
+	argv[argc] = NULL;
+
+	snprintf(PATH, sizeof(PATH), "/usr/bin/%s", argv[0]);
+	if(application_found){
+		pid_t pid = fork();
+
+		if(pid < 0){
+			perror("fork failed\n");
+		}
+		else if(pid == 0){
+
+			execv(PATH, argv);
+
+			perror("Execv failed");
+		}
+		else {
+			int status;
+			waitpid(pid, &status, 0);
+		}
+	}
+	
+	closedir(dir);
+}
+
+int main(int argc, char *argv[]){
 	char home_dir[PATH_MAX];
 	getcwd(home_dir, sizeof(home_dir));
 	printf("\n");
 	char current_dir[PATH_MAX], previous_dir[PATH_MAX];
+
 
 	while(1){
 		getcwd(current_dir, sizeof(current_dir));
@@ -24,17 +75,35 @@ int main(){
 		else {
 			printf("[ ~]$ ");
 		}
-		char input[128];
+		char input[MAX_INPUT];
 		fgets(input, sizeof(input), stdin);
 		input[strcspn(input, "\n")] = '\0';
 
-
+		check_application(input);
 		// type command
 		if (strncmp(input, "type", 4) == 0){
+			struct dirent *entry;
 			char *cmd = input+5;
+			DIR *dir = opendir("/usr/bin/");
+			if(dir == NULL){
+				printf("Path error");
+			}
+			int check_val = 0;
+
+			while ((entry = readdir(dir)) != NULL){
+				if(strcmp(entry->d_name, cmd) == 0){
+					check_val = 1;
+					break;
+				}
+			}
+
+			closedir(dir);
 
 			if(strcmp(cmd, "pwd") == 0 || strcmp(cmd, "ls") == 0 ||strcmp(cmd, "cd") == 0 || strcmp(cmd, "echo") == 0){
 				printf("It is a buildin command\n");
+			}
+			else if(check_val == 1){
+				printf("Command found in /usr/bin\n");
 			}
 			else{
 				printf("command not found\n");
@@ -119,8 +188,9 @@ int main(){
 		else if(strcmp(input, "exit") == 0){
 			exit (0);
 		}
-		
-		else{
+
+
+		else {
 			printf("%s: command not found\n", input);
 		}
 		getcwd(previous_dir, sizeof(previous_dir));

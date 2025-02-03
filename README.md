@@ -57,12 +57,12 @@
 
 
 **looping**  
-- [ ] Continuously Prompt the User:  
+- [x] Continuously Prompt the User:  
 
     - Display the shell prompt (e.g., myshell>) to the user.  
     - Use fgets() to read a line of input from the user.  
 
-- [ ] Check for the exit Command:  
+- [x] Check for the exit Command:  
 
     - If the user enters the exit command, set a flag (e.g., should_run = 0) to indicate that the shell should terminate.  
 
